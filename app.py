@@ -54,8 +54,7 @@ def get_hex_color(initial: str) -> str:
                     color += COLORS[i]
                     i += 1
                 return color
-            else:
-                last_is_dash = False
+            last_is_dash = False
         i += 1
     return color
 
@@ -77,8 +76,7 @@ def get_name_color(initial: str) -> str:
                     color += COLORS[i]
                     i += 1
                 return color
-            else:
-                last_is_dash = False
+            last_is_dash = False
         i += 1
     return color
 
