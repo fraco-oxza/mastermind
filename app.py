@@ -93,7 +93,7 @@ def remove_color_index(colors: str, index: int):
 
 def clear_color(possible_colors: str, color_to_remove: str) -> str:
     """
-    Function to remove from "possible_colors" all chars that be equal to the 
+    Function to remove from "possible_colors" all chars that be equal to the
     string "color_to_remove"
     """
     i = 0
@@ -118,8 +118,8 @@ def generate_random_color(possible_colors: str) -> str:
 def create_secret_key(possible_colors: str, key_length: int) -> str:
     """
     function to obtain a string of colors, based on a string of possible colors
-    and a requested length. It should be noted that colors cannot be repeated, 
-    therefore, the key_length parameter must not be greater than the length of 
+    and a requested length. It should be noted that colors cannot be repeated,
+    therefore, the key_length parameter must not be greater than the length of
     the possible_colors parameter.
     """
     secret_key = ""
