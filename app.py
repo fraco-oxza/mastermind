@@ -25,7 +25,6 @@ COLORS = """
 
 
 def get_all_colors() -> str:
-    #  global COLORS
     i = 0
     colors = ""
 
@@ -38,7 +37,6 @@ def get_all_colors() -> str:
 
 
 def get_hex_color(initial: str) -> str:
-    #  global COLORS
     i = 0
     last_is_dash = False
     color = ""
@@ -60,7 +58,6 @@ def get_hex_color(initial: str) -> str:
 
 
 def get_name_color(initial: str) -> str:
-    #  global COLORS
     i = 0
     last_is_dash = False
     color = ""
@@ -179,7 +176,6 @@ def count_hits(secret_key: str, user_key: str):
 
 
 def init_screen():
-    #  global SECUENCIE_LENGTH
     screen = turtle.Screen()
 
     screen.setup(SECUENCIE_LENGTH*50+220, 500)
@@ -247,7 +243,6 @@ def contain_only_allow_colors(key: str) -> bool:
 
 
 def get_user_key():
-    #  global SECUENCIE_LENGTH
     is_valid_key = False
     user_key = ""
     while not is_valid_key:
