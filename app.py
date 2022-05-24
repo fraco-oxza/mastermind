@@ -22,18 +22,19 @@ COLORS = """
 # =                       Section: Logic of game                              =
 # =                                                                           =
 # =============================================================================
+
+
 def get_all_colors() -> str:
-    global COLORS 
-    i = 0 
+    global COLORS
+    i = 0
     colors = ""
 
     while i < len(COLORS):
         if COLORS[i] == "-":
             colors += COLORS[i+1]
-        i+=1
+        i += 1
 
     return colors
-            
 
 
 def get_hex_color(initial: str) -> str:
@@ -202,8 +203,9 @@ def draw_user_selection(user_key: str, t: turtle.Turtle):
         t.forward(50)
         i += 1
 
-def draw_hits(position: int, color:int, t: turtle.Turtle):
-    i = 0 
+
+def draw_hits(position: int, color: int, t: turtle.Turtle):
+    i = 0
     while i < position:
         t.color("#928374")
         t.pendown()
@@ -212,7 +214,7 @@ def draw_hits(position: int, color:int, t: turtle.Turtle):
         t.end_fill()
         t.penup()
         t.forward(15)
-        i+=1
+        i += 1
     i = 0
     while i < color:
         t.color("#fbf1c7")
@@ -222,16 +224,15 @@ def draw_hits(position: int, color:int, t: turtle.Turtle):
         t.end_fill()
         t.penup()
         t.forward(15)
-        i+=1
-    
-        
+        i += 1
+
 
 # =============================================================================
 # =                                                                           =
 # =                     Section: Input Process                                =
 # =                                                                           =
 # =============================================================================
-def contain_only_allow_colors(key: str)-> bool:
+def contain_only_allow_colors(key: str) -> bool:
     colors = get_all_colors()
     i = 0
     while i < len(key):
@@ -240,89 +241,91 @@ def contain_only_allow_colors(key: str)-> bool:
         while j < len(colors) and not is_on_colors:
             if key[i] == colors[j]:
                 is_on_colors = True
-            j+=1
+            j += 1
         if not is_on_colors:
-            return False 
+            return False
         i += 1
     return True
 
 
 def get_user_key():
-    global SECUENCIE_LENGTH 
-    is_valid_key = False 
+    global SECUENCIE_LENGTH
+    is_valid_key = False
     user_key = ""
     while not is_valid_key:
-        raw_user_key = input("Ingrese ? para dudas y colores\nIngrese su opción: ")
+        raw_user_key = input(
+            "Ingrese ? para dudas y colores\nIngrese su opción: ")
         if raw_user_key == "?":
             print_colors()
-        # TODO: Clear the string 
+        # TODO: Clear the string
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != SECUENCIE_LENGTH:
-            print("ERROR: La cadena DEBE tener "+str(SECUENCIE_LENGTH)+" colores")
+            print("ERROR: La cadena DEBE tener " +
+                  str(SECUENCIE_LENGTH)+" colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
             is_valid_key = True
             user_key = raw_user_key
-    
+
     return user_key
- 
+
+
 def print_colors():
     print("Lista de colores: ")
     i = 0
     colors = get_all_colors()
     while i < len(colors):
         print(colors[i] + " - " + get_name_color(colors[i]))
-        i+=1
+        i += 1
     print("Ingrese la inicial de los colores en forma de cadena\nEjemplo: ")
     print("    Para la secuencia Rosado(r)-Amarillo(a)-Naranjo(n)")
     print("    La cadena a introducir seria: ran")
 
-def game_loop(t: turtle.Turtle, screen: turtle._Screen):
-    # TODO: Print the instructions 
-    global SECUENCIE_LENGTH 
 
-    
-    user_want_to_exit = False 
+def game_loop(t: turtle.Turtle, screen: turtle._Screen):
+    # TODO: Print the instructions
+    global SECUENCIE_LENGTH
+
+    user_want_to_exit = False
     while not user_want_to_exit:
         screen.setup(SECUENCIE_LENGTH*50+220, 800)
         t.clear()
 
-        width, height = screen.screensize() 
-        init_x = (width- SECUENCIE_LENGTH*50+30)/2-width/2 
+        width, height = screen.screensize()
+        init_x = (width - SECUENCIE_LENGTH*50+30)/2-width/2
         y = height/2 - 80
-        secret_key = create_secret_key(get_all_colors(),SECUENCIE_LENGTH)
-        win = False 
+        secret_key = create_secret_key(get_all_colors(), SECUENCIE_LENGTH)
+        win = False
         while not win:
             t.up()
-            t.goto(init_x,y)
-            
+            t.goto(init_x, y)
+
             user_key = get_user_key()
-            draw_user_selection(user_key,t)
-            pos_hits, col_hits = count_hits(secret_key,user_key)
-            draw_hits(pos_hits, col_hits,t)
+            draw_user_selection(user_key, t)
+            pos_hits, col_hits = count_hits(secret_key, user_key)
+            draw_hits(pos_hits, col_hits, t)
             if pos_hits == SECUENCIE_LENGTH:
                 win = True
-                user_want_to_exit_raw = input("Ha ganado, ¿Quiere seguir jugando?(s/n): ")
+                user_want_to_exit_raw = input(
+                    "Ha ganado, ¿Quiere seguir jugando?(s/n): ")
                 if user_want_to_exit_raw == "n":
-                    user_want_to_exit = True 
+                    user_want_to_exit = True
                 elif user_want_to_exit == "s":
                     pass
                 else:
                     pass
-            else: 
-                y-=50
-            
+            else:
+                y -= 50
+
 
 def main():
-    print_colors() 
+    print_colors()
     screen = init_screen()
     turtle_instance = turtle.Turtle()
     turtle_instance.speed(0)
-    game_loop(turtle_instance,screen)
-
-
+    game_loop(turtle_instance, screen)
 
 
 if __name__ == "__main__":
