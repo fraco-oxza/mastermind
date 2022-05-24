@@ -104,7 +104,7 @@ def clear_color(possible_colors: str, color_to_remove: str) -> str:
 
 def generate_random_color(possible_colors: str) -> str:
     "Function to get a random color from a string of color initials"
-    
+
     index = random.randint(0, len(possible_colors)-1)
     rand_color = possible_colors[index]
 
