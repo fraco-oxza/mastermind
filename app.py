@@ -199,7 +199,8 @@ def draw_user_selection(user_key: str, t: turtle.Turtle):
         t.forward(50)
         i += 1
 
-def draw_secret_key(secret_key: str, t:turtle.Turtle):
+
+def draw_secret_key(secret_key: str, t: turtle.Turtle):
     initial_x, initial_y = t.position()
     t.up()
     t.goto(initial_x-10, initial_y+10)
@@ -212,7 +213,7 @@ def draw_secret_key(secret_key: str, t:turtle.Turtle):
     t.color("#111111")
     t.begin_fill()
     t.pendown()
-    
+
     t.forward(KEY_LENGTH*50)
     t.right(90)
     t.forward(60)
@@ -223,9 +224,9 @@ def draw_secret_key(secret_key: str, t:turtle.Turtle):
     t.penup()
     t.end_fill()
     t.up()
-    t.setpos(initial_x,initial_y-50)
+    t.setpos(initial_x, initial_y-50)
     t.setheading(0)
-    draw_user_selection(secret_key,t)
+    draw_user_selection(secret_key, t)
 
 
 def draw_hits(position: int, color: int, t: turtle.Turtle):
@@ -294,35 +295,35 @@ def get_user_key():
 
     return user_key
 
+
 def trim(s: str) -> str:
     result = ""
-    
+
     start = 0
     while start < len(s) and s[start] == " ":
-        start+=1
+        start += 1
 
     end = len(s) - 1
     while end >= 0 and s[end] == " ":
         end -= 1
-    
+
     for i in range(start, end+1):
         result += s[i]
-    
+
     return result
+
 
 def user_wants_to_continue(msg: str) -> bool:
     has_answer = False
     while not has_answer:
         raw_answer = input(msg+", ¿Desea seguir jugando?(s/n): ")
-        raw_answer = trim(raw_answer) 
+        raw_answer = trim(raw_answer)
         if raw_answer == "s":
-            return True 
+            return True
         if raw_answer == "n":
             has_answer = True
         print("ERROR: Ingrese una opción, s ó n")
     return False
-
-
 
 
 def print_colors():
@@ -364,16 +365,18 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                 t.up()
                 t.goto(init_x, y-50)
                 win = True
-                draw_secret_key(secret_key,t)
+                draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
                 t.goto(init_x, y-50)
-                win = True 
-                draw_secret_key(secret_key,t)
-                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
-            else: 
+                win = True
+                draw_secret_key(secret_key, t)
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha perdido esta ronda")
+            else:
                 score /= 2
 
             y -= 50
@@ -393,4 +396,3 @@ def main():
 if __name__ == "__main__":
     main()
     input("Presione enter para salir")
-
