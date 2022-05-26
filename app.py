@@ -90,20 +90,6 @@ def remove_color_index(colors: str, index: int):
     return clean_colors
 
 
-def clear_color(possible_colors: str, color_to_remove: str) -> str:
-    """
-    Function to remove from "possible_colors" all chars that be equal to the
-    string "color_to_remove"
-    """
-    i = 0
-    clean_colors = ""
-    while i < len(possible_colors):
-        if possible_colors[i] != color_to_remove:
-            clean_colors += possible_colors[i]
-        i += 1
-    return clean_colors
-
-
 def generate_random_color(possible_colors: str) -> str:
     "Function to get a random color from a string of color initials"
     index = random.randint(0, len(possible_colors) - 1)
@@ -122,7 +108,6 @@ def create_secret_key(possible_colors: str, key_length: int) -> str:
     secret_key = ""
     for _ in range(key_length):
         color = generate_random_color(possible_colors)
-        possible_colors = clear_color(possible_colors, color)
 
         secret_key += color
 
