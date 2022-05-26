@@ -5,16 +5,18 @@ Created on Wednesday May 11, 2022 at 02:09 PM
 """
 import turtle
 import random
+import math
 
-SECUENCIE_LENGTH = 3
+KEY_LENGTH = 5
+MAX_ATTEMPTS = 8
 COLORS = """
 -n|naranjo:#F6421B;
 -c|celeste:#26B2EB;
 -v|verde:#24D417;
 -a|amarillo:#F6C202;
 -p|purpura:#8217D4;
--z|azul:#00f;
--r|rosado:#f0f;
+-b|blanco:#FEFDFA;
+-r|rosado:#FF21D1;
 """
 
 # =============================================================================
@@ -30,7 +32,7 @@ def get_all_colors() -> str:
 
     while i < len(COLORS):
         if COLORS[i] == "-":
-            colors += COLORS[i+1]
+            colors += COLORS[i + 1]
         i += 1
 
     return colors
@@ -67,7 +69,7 @@ def get_name_color(initial: str) -> str:
             last_is_dash = True
         else:
             if last_is_dash and COLORS[i] == initial:
-                while COLORS[i-1] != "|":
+                while COLORS[i - 1] != "|":
                     i += 1
                 while COLORS[i] != ":":
                     color += COLORS[i]
@@ -104,7 +106,7 @@ def clear_color(possible_colors: str, color_to_remove: str) -> str:
 
 def generate_random_color(possible_colors: str) -> str:
     "Function to get a random color from a string of color initials"
-    index = random.randint(0, len(possible_colors)-1)
+    index = random.randint(0, len(possible_colors) - 1)
     rand_color = possible_colors[index]
 
     return rand_color
@@ -166,6 +168,7 @@ def count_hits(secret_key: str, user_key: str):
 
     return pos_hits, col_hits
 
+
 # =============================================================================
 # =                                                                           =
 # =                     Section: Graphics of game                             =
@@ -176,7 +179,8 @@ def count_hits(secret_key: str, user_key: str):
 def init_screen():
     screen = turtle.Screen()
 
-    screen.setup(SECUENCIE_LENGTH*50+220, 500)
+    screen.setup(KEY_LENGTH * 50 + 220, 200 + MAX_ATTEMPTS * 60)
+    screen.screensize(KEY_LENGTH * 50 + 220, 200 + MAX_ATTEMPTS * 60)
     screen.bgcolor("#232323")
 
     return screen
@@ -194,6 +198,34 @@ def draw_user_selection(user_key: str, t: turtle.Turtle):
         t.penup()
         t.forward(50)
         i += 1
+
+def draw_secret_key(secret_key: str, t:turtle.Turtle):
+    initial_x, initial_y = t.position()
+    t.up()
+    t.goto(initial_x-10, initial_y+10)
+    t.color("#f0f0f0")
+    t.write("Combinación Correcta: ")
+    t.goto(initial_x, initial_y)
+    t.right(180)
+    t.forward(25)
+    t.right(180)
+    t.color("#111111")
+    t.begin_fill()
+    t.pendown()
+    
+    t.forward(KEY_LENGTH*50)
+    t.right(90)
+    t.forward(60)
+    t.right(90)
+    t.forward(KEY_LENGTH*50)
+    t.right(90)
+    t.forward(60)
+    t.penup()
+    t.end_fill()
+    t.up()
+    t.setpos(initial_x,initial_y-50)
+    t.setheading(0)
+    draw_user_selection(secret_key,t)
 
 
 def draw_hits(position: int, color: int, t: turtle.Turtle):
@@ -244,16 +276,16 @@ def get_user_key():
     is_valid_key = False
     user_key = ""
     while not is_valid_key:
-        raw_user_key = input(
-            "Ingrese ? para dudas y colores\nIngrese su opción: ")
+        raw_user_key = trim(input(
+            "Ingrese ? para dudas y colores\nIngrese su opción: "))
+
         if raw_user_key == "?":
             print_colors()
-        # TODO: Clear the string
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
-        elif len(raw_user_key) != SECUENCIE_LENGTH:
+        elif len(raw_user_key) != KEY_LENGTH:
             print("ERROR: La cadena DEBE tener " +
-                  str(SECUENCIE_LENGTH)+" colores")
+                  str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -261,6 +293,36 @@ def get_user_key():
             user_key = raw_user_key
 
     return user_key
+
+def trim(s: str) -> str:
+    result = ""
+    
+    start = 0
+    while start < len(s) and s[start] == " ":
+        start+=1
+
+    end = len(s) - 1
+    while end >= 0 and s[end] == " ":
+        end -= 1
+    
+    for i in range(start, end+1):
+        result += s[i]
+    
+    return result
+
+def user_wants_to_continue(msg: str) -> bool:
+    has_answer = False
+    while not has_answer:
+        raw_answer = input(msg+", ¿Desea seguir jugando?(s/n): ")
+        raw_answer = trim(raw_answer) 
+        if raw_answer == "s":
+            return True 
+        if raw_answer == "n":
+            has_answer = True
+        print("ERROR: Ingrese una opción, s ó n")
+    return False
+
+
 
 
 def print_colors():
@@ -277,18 +339,19 @@ def print_colors():
 
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     # TODO: Print the instructions
-    #  global SECUENCIE_LENGTH
 
+    points = 0
     user_want_to_exit = False
     while not user_want_to_exit:
-        screen.setup(SECUENCIE_LENGTH*50+220, 800)
+        score = 1000
         t.clear()
 
-        width, height = screen.screensize()
-        init_x = (width - SECUENCIE_LENGTH*50+30)/2-width/2
-        y = height/2 - 80
-        secret_key = create_secret_key(get_all_colors(), SECUENCIE_LENGTH)
+        width, _ = screen.screensize()
+        init_x = (width - KEY_LENGTH * 50 + 30) / 2 - width / 2
+        y = (200+MAX_ATTEMPTS*60)/2 - 100
+        secret_key = create_secret_key(get_all_colors(), KEY_LENGTH)
         win = False
+        attemp = 1
         while not win:
             t.up()
             t.goto(init_x, y)
@@ -297,18 +360,26 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
             draw_user_selection(user_key, t)
             pos_hits, col_hits = count_hits(secret_key, user_key)
             draw_hits(pos_hits, col_hits, t)
-            if pos_hits == SECUENCIE_LENGTH:
+            if pos_hits == KEY_LENGTH:
+                t.up()
+                t.goto(init_x, y-50)
                 win = True
-                user_want_to_exit_raw = input(
-                    "Ha ganado, ¿Quiere seguir jugando?(s/n): ")
-                if user_want_to_exit_raw == "n":
-                    user_want_to_exit = True
-                elif user_want_to_exit == "s":
-                    pass
-                else:
-                    pass
-            else:
-                y -= 50
+                draw_secret_key(secret_key,t)
+                points += score
+                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
+            elif attemp >= MAX_ATTEMPTS:
+                t.up()
+                t.goto(init_x, y-50)
+                win = True 
+                draw_secret_key(secret_key,t)
+                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
+            else: 
+                score /= 2
+
+            y -= 50
+            attemp += 1
+        print("Ya lleva ", math.floor(points), "puntos")
+    print("Ha Obtenido ", math.floor(points), "puntos")
 
 
 def main():
@@ -322,3 +393,4 @@ def main():
 if __name__ == "__main__":
     main()
     input("Presione enter para salir")
+
