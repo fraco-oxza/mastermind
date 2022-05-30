@@ -154,21 +154,21 @@ def generate_random_color(possible_colors: str) -> str:
     return rand_color
 
 
-def create_secret_key(possible_colors: str, key_length: int, repeated_colors: bool) -> str:
+def create_secret_key(pos_col: str, key_len: int, repeated_colors: bool) -> str:
     """
     Function to obtain a string of colors, based on a string of possible colors
     and a requested length. It should be noted that colors cannot be repeated,
-    therefore, the key_length parameter must not be greater than the length of
-    the possible_colors parameter.
+    therefore, the key_len parameter must not be greater than the length of
+    the pos_col parameter.
     """
     secret_key = ""
     i = 0
-    while i < key_length:
-        color = generate_random_color(possible_colors)
+    while i < key_len:
+        color = generate_random_color(pos_col)
         if not repeated_colors:
             # Colors are eliminated as they have been used, to avoid repetition
             # if the user are player in non repetition mode
-            possible_colors = clear_color(possible_colors, color)
+            pos_col = clear_color(pos_col, color)
 
         secret_key += color
         i += 1
