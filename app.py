@@ -394,7 +394,8 @@ def get_user_key() -> str:
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != KEY_LENGTH:
-            print("ERROR: La cadena DEBE tener " + str(KEY_LENGTH) + " colores")
+            print("ERROR: La cadena DEBE tener " +
+                  str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -454,16 +455,18 @@ def print_colors():
     print("    Para la secuencia Rosado(r)-Amarillo(a)-Naranjo(n)")
     print("    La cadena a introducir seria: ran")
 
+
 def print_rules():
     """Function to print the rules of the game."""
     print(
-    """ 
+        """ 
     <======================>
              Reglas
     
     Intentos maximos:     {}
     Largo de Combinacion: {}
     """.format(MAX_ATTEMPTS, KEY_LENGTH))
+
 
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     """
@@ -507,13 +510,15 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                 win = True
                 draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
                 t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
-                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha perdido esta ronda")
             else:
                 score /= 2
 
@@ -546,7 +551,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 def main():
     """Main function, from here the functions are called to start the game."""
     print(
-"""
+        """
 --------------------------------------------
       Bienvenido a MasterMind v1.0.4
 --------------------------------------------
