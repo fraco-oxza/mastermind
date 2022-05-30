@@ -282,7 +282,7 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     user what it was and highlighting it by enclosing it in a 
     rectangle to add contrast.
     """
-    # Write the text 
+    # Write the text
     initial_x, initial_y = t.position()
     t.up()
     t.goto(initial_x - 10, initial_y + 10)
