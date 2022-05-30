@@ -1,14 +1,34 @@
-"""
-Created on Wednesday May 11, 2022 at 02:09 PM
+# Python Version 3.10.9
+# [GCC 11.2.0] on linux
+#
+# Copyright (c) 2022 Francisco Carvajal Ossa 
+#
+# Name: MasterMind
+# Version: 1.0
+# Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
+# License: All Rights Reserved
+from typing import Tuple
 
-@Author: fraco
-"""
 import turtle
 import random
 import math
 
-KEY_LENGTH = 5
-MAX_ATTEMPTS = 8
+KEY_LENGTH = 5  # The length for the user and secret key
+MAX_ATTEMPTS = 10  # Maximum attempts to discover the secret key
+
+
+# =============================================================================
+# =                                                                           =
+# =                       Section: Color Operations                           =
+# =                                                                           =
+# =============================================================================
+
+# String to store all colors availables in the game
+# The syntax must be the next
+#
+# -[Color Key]|[Color name]:[Color Code(Hex)];
+#
+# One per line
 COLORS = """
 -n|naranjo:#F6421B;
 -c|celeste:#26B2EB;
@@ -19,47 +39,57 @@ COLORS = """
 -r|rosado:#FF21D1;
 """
 
-# =============================================================================
-# =                                                                           =
-# =                       Section: Logic of game                              =
-# =                                                                           =
-# =============================================================================
-
 
 def get_all_colors() -> str:
+    """
+    Function to get all colors keys from the COLORS const
+    in one str
+    """
     i = 0
     colors = ""
 
     while i < len(COLORS):
-        if COLORS[i] == "-":
-            colors += COLORS[i + 1]
+        if COLORS[i] == "-":  # Find the dash for find the Color Key
+            colors += COLORS[i + 1]  # Append the Color Key to the Colors
         i += 1
 
     return colors
 
 
-def get_hex_color(initial: str) -> str:
+def get_hex_color(color_code: str) -> str:
+    """
+    Function to get a Color Code from the
+    COLORS const based on a Color Key.
+    If not exists, return a empty string
+    """
     i = 0
     last_is_dash = False
     color = ""
 
     while i < len(COLORS):
-        if COLORS[i] == "-":
+        if COLORS[i] == "-":  # Find the dash
             last_is_dash = True
         else:
-            if last_is_dash and COLORS[i] == initial:
+            if last_is_dash and COLORS[i] == color_code:
                 while COLORS[i] != "#":
+                    # Forward in the COLORS until the Number sign
                     i += 1
                 while COLORS[i] != ";":
+                    # Save the Color Code that ends in the Semicolon sign
                     color += COLORS[i]
                     i += 1
                 return color
             last_is_dash = False
         i += 1
-    return color
+    return color  # Return the empty string, if not exists one color with that Code
 
 
-def get_name_color(initial: str) -> str:
+def get_name_color(color_code: str) -> str:
+    """
+    Function to get a Name Color from the
+    COLORS const based on a Color Key.
+    If not exists, return a empty string
+    """
     i = 0
     last_is_dash = False
     color = ""
@@ -68,7 +98,7 @@ def get_name_color(initial: str) -> str:
         if COLORS[i] == "-":
             last_is_dash = True
         else:
-            if last_is_dash and COLORS[i] == initial:
+            if last_is_dash and COLORS[i] == color_code:
                 while COLORS[i - 1] != "|":
                     i += 1
                 while COLORS[i] != ":":
@@ -80,7 +110,7 @@ def get_name_color(initial: str) -> str:
     return color
 
 
-def remove_color_index(colors: str, index: int):
+def remove_color_index(colors: str, index: int) -> str:
     clean_colors = ""
     i = 0
     while i < len(colors):
@@ -92,7 +122,7 @@ def remove_color_index(colors: str, index: int):
 
 def clear_color(possible_colors: str, color_to_remove: str) -> str:
     """
-    Function to remove from "possible_colors" all chars that be equal to the
+    Function to remove from "possible_colors all chars that be equal to the
     string "color_to_remove"
     """
     i = 0
@@ -102,6 +132,13 @@ def clear_color(possible_colors: str, color_to_remove: str) -> str:
             clean_colors += possible_colors[i]
         i += 1
     return clean_colors
+
+
+# =============================================================================
+# =                                                                           =
+# =                       Section: Logic of game                              =
+# =                                                                           =
+# =============================================================================
 
 
 def generate_random_color(possible_colors: str) -> str:
@@ -126,10 +163,11 @@ def create_secret_key(possible_colors: str, key_length: int) -> str:
 
         secret_key += color
 
+    print(f"Secret Key: {secret_key}")
     return secret_key
 
 
-def count_color_hits(secret_key: str, user_key: str):
+def count_color_hits(secret_key: str, user_key: str) -> int:
     col_hits = 0
     i = 0
     while i < len(secret_key):
@@ -146,7 +184,7 @@ def count_color_hits(secret_key: str, user_key: str):
     return col_hits
 
 
-def count_hits(secret_key: str, user_key: str):
+def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
     if secret_key == user_key:
         return len(secret_key), 0
 
@@ -176,7 +214,7 @@ def count_hits(secret_key: str, user_key: str):
 # =============================================================================
 
 
-def init_screen():
+def init_screen() -> turtle._Screen:
     screen = turtle.Screen()
 
     screen.setup(KEY_LENGTH * 50 + 220, 200 + MAX_ATTEMPTS * 60)
@@ -203,7 +241,7 @@ def draw_user_selection(user_key: str, t: turtle.Turtle):
 def draw_secret_key(secret_key: str, t: turtle.Turtle):
     initial_x, initial_y = t.position()
     t.up()
-    t.goto(initial_x-10, initial_y+10)
+    t.goto(initial_x - 10, initial_y + 10)
     t.color("#f0f0f0")
     t.write("Combinación Correcta: ")
     t.goto(initial_x, initial_y)
@@ -214,17 +252,17 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     t.begin_fill()
     t.pendown()
 
-    t.forward(KEY_LENGTH*50)
+    t.forward(KEY_LENGTH * 50)
     t.right(90)
     t.forward(60)
     t.right(90)
-    t.forward(KEY_LENGTH*50)
+    t.forward(KEY_LENGTH * 50)
     t.right(90)
     t.forward(60)
     t.penup()
     t.end_fill()
     t.up()
-    t.setpos(initial_x, initial_y-50)
+    t.setpos(initial_x, initial_y - 50)
     t.setheading(0)
     draw_user_selection(secret_key, t)
 
@@ -273,20 +311,20 @@ def contain_only_allow_colors(key: str) -> bool:
     return True
 
 
-def get_user_key():
+def get_user_key() -> str:
     is_valid_key = False
     user_key = ""
     while not is_valid_key:
-        raw_user_key = trim(input(
-            "Ingrese ? para dudas y colores\nIngrese su opción: "))
+        raw_user_key = trim(
+            input("Ingrese ? para dudas y colores\nIngrese su opción: ")
+        )
 
         if raw_user_key == "?":
             print_colors()
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != KEY_LENGTH:
-            print("ERROR: La cadena DEBE tener " +
-                  str(KEY_LENGTH) + " colores")
+            print("ERROR: La cadena DEBE tener " + str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -307,7 +345,7 @@ def trim(s: str) -> str:
     while end >= 0 and s[end] == " ":
         end -= 1
 
-    for i in range(start, end+1):
+    for i in range(start, end + 1):
         result += s[i]
 
     return result
@@ -316,12 +354,12 @@ def trim(s: str) -> str:
 def user_wants_to_continue(msg: str) -> bool:
     has_answer = False
     while not has_answer:
-        raw_answer = input(msg+", ¿Desea seguir jugando?(s/n): ")
+        raw_answer = input(msg + ", ¿Desea seguir jugando?(s/n): ")
         raw_answer = trim(raw_answer)
         if raw_answer == "s":
             return True
         if raw_answer == "n":
-            has_answer = True
+            return False
         print("ERROR: Ingrese una opción, s ó n")
     return False
 
@@ -341,21 +379,26 @@ def print_colors():
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     # TODO: Print the instructions
 
+    games = 0
     points = 0
+    tries = 0
     user_want_to_exit = False
     while not user_want_to_exit:
         score = 1000
+        games += 1
         t.clear()
 
         width, _ = screen.screensize()
         init_x = (width - KEY_LENGTH * 50 + 30) / 2 - width / 2
-        y = (200+MAX_ATTEMPTS*60)/2 - 100
+        y = (200 + MAX_ATTEMPTS * 60) / 2 - 100
         secret_key = create_secret_key(get_all_colors(), KEY_LENGTH)
         win = False
         attemp = 1
         while not win:
             t.up()
             t.goto(init_x, y)
+            
+            tries += 1
 
             user_key = get_user_key()
             draw_user_selection(user_key, t)
@@ -363,26 +406,38 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
             draw_hits(pos_hits, col_hits, t)
             if pos_hits == KEY_LENGTH:
                 t.up()
-                t.goto(init_x, y-50)
+                t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue(
-                    "Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
-                t.goto(init_x, y-50)
+                t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
-                user_want_to_exit = not user_wants_to_continue(
-                    "Ha perdido esta ronda")
+                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
             else:
                 score /= 2
 
             y -= 50
             attemp += 1
         print("Ya lleva ", math.floor(points), "puntos")
-    print("Ha Obtenido ", math.floor(points), "puntos")
+    end_text = """\n====================================================
+
+                    Juego Terminado
+                    ---------------
+
+        Puntos:                     {}
+
+        Partidas jugadas:           {} 
+        Promedio de intentos:       {}
+        
+        Largo de clave:             {}
+        Cantidad de Colores:        {}
+
+===================================================="""
+    print(end_text.format(math.floor(points), games,round(tries/games), KEY_LENGTH, len(get_all_colors())))
 
 
 def main():
