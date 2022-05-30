@@ -1,10 +1,10 @@
 # Python Version 3.10.9
 # [GCC 11.2.0] on linux
 #
-# Copyright (c) 2022 Francisco Carvajal Ossa 
+# Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.0
+# Version: 1.0.1
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -96,13 +96,13 @@ def get_name_color(color_code: str) -> str:
 
     while i < len(COLORS):
         if COLORS[i] == "-":
-            last_is_dash = True
+            last_is_dash = True  # find the dash
         else:
             if last_is_dash and COLORS[i] == color_code:
                 while COLORS[i - 1] != "|":
                     i += 1
                 while COLORS[i] != ":":
-                    color += COLORS[i]
+                    color += COLORS[i]  # Save the Color name letter by letter
                     i += 1
                 return color
             last_is_dash = False
@@ -111,6 +111,11 @@ def get_name_color(color_code: str) -> str:
 
 
 def remove_color_index(colors: str, index: int) -> str:
+    """
+    Function to remove from colors one letter specified by the index,
+    this function will to create a new string without of the letter in
+    index position
+    """
     clean_colors = ""
     i = 0
     while i < len(colors):
@@ -151,23 +156,30 @@ def generate_random_color(possible_colors: str) -> str:
 
 def create_secret_key(possible_colors: str, key_length: int) -> str:
     """
-    function to obtain a string of colors, based on a string of possible colors
+    Function to obtain a string of colors, based on a string of possible colors
     and a requested length. It should be noted that colors cannot be repeated,
     therefore, the key_length parameter must not be greater than the length of
     the possible_colors parameter.
     """
     secret_key = ""
-    for _ in range(key_length):
+    i = 0
+    while i < key_length:
         color = generate_random_color(possible_colors)
+        # Colors are eliminated as they have been used, to avoid repetition
         possible_colors = clear_color(possible_colors, color)
 
         secret_key += color
+        i += 1
 
-    print(f"Secret Key: {secret_key}")
     return secret_key
 
 
 def count_color_hits(secret_key: str, user_key: str) -> int:
+    """
+    Function to compare the user key with the secret key.
+    It will return how many colors the user has matched regardless
+    of whether they are in the correct position or not.
+    """
     col_hits = 0
     i = 0
     while i < len(secret_key):
@@ -175,8 +187,12 @@ def count_color_hits(secret_key: str, user_key: str) -> int:
         while j < len(user_key):
             if secret_key[i] == user_key[j]:
                 col_hits += 1
+                # colors that have already been counted are removed,
+                # to avoid counting them too many times
                 secret_key = remove_color_index(secret_key, i)
                 user_key = remove_color_index(user_key, j)
+                # the iterators are readjusted, since
+                # now the chain will be one unit shorter
                 i -= 1
                 j -= 1
             j += 1
@@ -397,7 +413,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         while not win:
             t.up()
             t.goto(init_x, y)
-            
+
             tries += 1
 
             user_key = get_user_key()
@@ -437,7 +453,15 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         Cantidad de Colores:        {}
 
 ===================================================="""
-    print(end_text.format(math.floor(points), games,round(tries/games), KEY_LENGTH, len(get_all_colors())))
+    print(
+        end_text.format(
+            math.floor(points),
+            games,
+            round(tries / games),
+            KEY_LENGTH,
+            len(get_all_colors()),
+        )
+    )
 
 
 def main():
