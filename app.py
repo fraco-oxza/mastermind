@@ -4,7 +4,7 @@
 # Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.0.2
+# Version: 1.0.3
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -147,7 +147,7 @@ def clear_color(possible_colors: str, color_to_remove: str) -> str:
 
 
 def generate_random_color(possible_colors: str) -> str:
-    "Function to get a random color from a string of color initials"
+    """Function to get a random color from possible_colors"""
     index = random.randint(0, len(possible_colors) - 1)
     rand_color = possible_colors[index]
 
@@ -201,11 +201,25 @@ def count_color_hits(secret_key: str, user_key: str) -> int:
 
 
 def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
+    """ 
+    Function to count the number of colors that the user has hit, 
+    giving priority to the colors that are in the correct position, 
+    compared to the colors that are, but not in the correct position.
+ 
+    The first value returned from left to right, are the positional 
+    hits, the second is the color hits
+
+    pos_hits, col_hits = count_hits("nar", "ran")
+    # pos_hits: 1 
+    # col_hits: 2
+    """
     if secret_key == user_key:
         return len(secret_key), 0
 
     pos_hits = 0
 
+    # clean strings, without the positional hits, 
+    # to be able to count the color hits.
     secret_key_no_pos_hits = ""
     user_key_no_pos_hits = ""
 
@@ -222,7 +236,6 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
 
     return pos_hits, col_hits
 
-
 # =============================================================================
 # =                                                                           =
 # =                     Section: Graphics of game                             =
@@ -231,6 +244,11 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
 
 
 def init_screen() -> turtle._Screen:
+    """ 
+    function to create the window where the game will be drawn. 
+    The size of the window will depend on the number of maximum attempts 
+    and the length of the key.
+    """ 
     screen = turtle.Screen()
 
     screen.setup(KEY_LENGTH * 50 + 220, 200 + MAX_ATTEMPTS * 60)
@@ -240,10 +258,14 @@ def init_screen() -> turtle._Screen:
     return screen
 
 
-def draw_user_selection(user_key: str, t: turtle.Turtle):
+def draw_key(key: str, t: turtle.Turtle):
+    """ 
+    Function to draw the combination of circles that are indicated in the 
+    key string, respecting the indicated colors.
+    """ 
     i = 0
-    while i < len(user_key):
-        hex_color = get_hex_color(user_key[i])
+    while i < len(key):
+        hex_color = get_hex_color(key[i])
         t.color(hex_color)
         t.pendown()
         t.begin_fill()
@@ -255,11 +277,20 @@ def draw_user_selection(user_key: str, t: turtle.Turtle):
 
 
 def draw_secret_key(secret_key: str, t: turtle.Turtle):
+    """
+    Function used to print the secret key, indicating to the 
+    user what it was and highlighting it by enclosing it in a 
+    rectangle to add contrast.
+    """
+
+    # Write the text 
     initial_x, initial_y = t.position()
     t.up()
     t.goto(initial_x - 10, initial_y + 10)
     t.color("#f0f0f0")
     t.write("Combinación Correcta: ")
+    
+    # Draw the rectangle
     t.goto(initial_x, initial_y)
     t.right(180)
     t.forward(25)
@@ -267,7 +298,6 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     t.color("#111111")
     t.begin_fill()
     t.pendown()
-
     t.forward(KEY_LENGTH * 50)
     t.right(90)
     t.forward(60)
@@ -277,13 +307,22 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     t.forward(60)
     t.penup()
     t.end_fill()
+
+    # Draw circles using the draw_key function
     t.up()
     t.setpos(initial_x, initial_y - 50)
     t.setheading(0)
-    draw_user_selection(secret_key, t)
+    draw_key(secret_key, t)
 
 
 def draw_hits(position: int, color: int, t: turtle.Turtle):
+    """
+    Function to indicate to the user through the screen 
+    how many hits his combination has. It will first draw 
+    n gray circles indicating n positional hits, and then 
+    draw m cream circles to indicate m color hits.
+    """
+    # Positional Hits 
     i = 0
     while i < position:
         t.color("#928374")
@@ -294,6 +333,7 @@ def draw_hits(position: int, color: int, t: turtle.Turtle):
         t.penup()
         t.forward(15)
         i += 1
+    # Color Hits
     i = 0
     while i < color:
         t.color("#fbf1c7")
@@ -311,7 +351,13 @@ def draw_hits(position: int, color: int, t: turtle.Turtle):
 # =                     Section: Input Process                                =
 # =                                                                           =
 # =============================================================================
+
 def contain_only_allow_colors(key: str) -> bool:
+    """
+    function to check that all the characters of the string key 
+    are valid as Color Code in the constant COLORS
+    """
+    # Get all colors in the COLORS const
     colors = get_all_colors()
     i = 0
     while i < len(key):
@@ -322,12 +368,19 @@ def contain_only_allow_colors(key: str) -> bool:
                 is_on_colors = True
             j += 1
         if not is_on_colors:
+            # Immediately when a color is not this returns False 
             return False
         i += 1
     return True
 
 
 def get_user_key() -> str:
+    """ 
+    Function to ask the user for his key prediction. Check that the 
+    key entered is valid, if it is not, it will continue asking until the 
+    user enters a valid key. In addition, the user can enter the question symbol
+    for a small guide and the list of colors. 
+    """
     is_valid_key = False
     user_key = ""
     while not is_valid_key:
@@ -352,6 +405,8 @@ def get_user_key() -> str:
 
 
 def trim(s: str) -> str:
+    """Function to remove all spaces at the beginning and end of a string"""
+
     result = ""
 
     start = 0
@@ -369,6 +424,11 @@ def trim(s: str) -> str:
 
 
 def user_wants_to_continue(msg: str) -> bool:
+    """
+    Function to ask the user if he wants to continue playing. 
+    It will prompt the user until they indicate a valid option.
+    """
+
     has_answer = False
     while not has_answer:
         raw_answer = input(msg + ", ¿Desea seguir jugando?(s/n): ")
@@ -382,6 +442,10 @@ def user_wants_to_continue(msg: str) -> bool:
 
 
 def print_colors():
+    """ 
+    Function that prints a list of the colors contained in the constant COLORS. 
+    In addition to giving a brief explanation of how to enter the key. 
+    """ 
     print("Lista de colores: ")
     i = 0
     colors = get_all_colors()
@@ -394,6 +458,12 @@ def print_colors():
 
 
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
+    """ 
+    This function is responsible for executing the logic of the game. Among his
+    responsibilities is to generate a key for each game, acquire user data, 
+    calculate where to draw each thing, keep a count of points, print the 
+    statistics and check if the user wants to continue playing.
+    """ 
     # TODO: Print the instructions
 
     games = 0
@@ -408,7 +478,9 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         width, _ = screen.screensize()
         init_x = (width - KEY_LENGTH * 50 + 30) / 2 - width / 2
         y = (200 + MAX_ATTEMPTS * 60) / 2 - 100
+
         secret_key = create_secret_key(get_all_colors(), KEY_LENGTH)
+
         win = False
         attemp = 1
         while not win:
@@ -418,7 +490,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
             tries += 1
 
             user_key = get_user_key()
-            draw_user_selection(user_key, t)
+            draw_key(user_key, t)
             pos_hits, col_hits = count_hits(secret_key, user_key)
             draw_hits(pos_hits, col_hits, t)
             if pos_hits == KEY_LENGTH:
@@ -466,6 +538,9 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 
 
 def main():
+    """ 
+    Main function, from here the functions are called to start the game.
+    """ 
     print_colors()
     screen = init_screen()
     turtle_instance = turtle.Turtle()
