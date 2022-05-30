@@ -4,7 +4,7 @@
 # Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.0.3
+# Version: 1.0.4
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -454,6 +454,16 @@ def print_colors():
     print("    Para la secuencia Rosado(r)-Amarillo(a)-Naranjo(n)")
     print("    La cadena a introducir seria: ran")
 
+def print_rules():
+    """Function to print the rules of the game."""
+    print(
+    """ 
+    <======================>
+             Reglas
+    
+    Intentos maximos:     {}
+    Largo de Combinacion: {}
+    """.format(MAX_ATTEMPTS, KEY_LENGTH))
 
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     """
@@ -535,7 +545,29 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 
 def main():
     """Main function, from here the functions are called to start the game."""
+    print(
+"""
+--------------------------------------------
+      Bienvenido a MasterMind v1.0.4
+--------------------------------------------
+En este juego deberás intentar adivinar una 
+secuencia de colores que es elegida 
+aleatoriamente por el computador. Para ello 
+el computador te mostrará a través de la 
+pantalla con unos pequeños círculos, que tan
+cerca estas de conseguirlo. Te mostrará un 
+círculo de color gris cuando hayas adivinado 
+la posición y el color de una ficha (Ojo: no 
+te dirá cuál es) y te mostrará un círculo de
+color blanco cuando hayas indicado bien él 
+color de una ficha, pero esta no este en la 
+posición correcta.
+""")
+    input("Presione enter para continuar...")
+    print_rules()
+    input("Presione enter para continuar...")
     print_colors()
+    input("Presione enter para continuar...")
     screen = init_screen()
     turtle_instance = turtle.Turtle()
     turtle_instance.speed(0)
