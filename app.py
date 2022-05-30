@@ -534,9 +534,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 
 
 def main():
-    """
-    Main function, from here the functions are called to start the game.
-    """
+    """Main function, from here the functions are called to start the game."""
     print_colors()
     screen = init_screen()
     turtle_instance = turtle.Turtle()
