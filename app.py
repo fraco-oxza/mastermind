@@ -432,7 +432,7 @@ def ask_game_mode() -> bool:
     user.
     """
     print(
-"""
+        """
 En este juego hay dos modalidades. En la primera, la combinación
 que elige el computador no tiene colores repetidos, lo que hace
 más fácil descubrir las posiciones de las fichas. Y en la segunda
@@ -494,7 +494,7 @@ def print_rules(repeated_colors):
     Intentos maximos:     {}
     Largo de Combinacion: {}
     Modalidad:            {}
-    """.format(MAX_ATTEMPTS, KEY_LENGTH,mode))
+    """.format(MAX_ATTEMPTS, KEY_LENGTH, mode))
 
 
 def game_loop(repeated_colors: bool, t: turtle.Turtle, screen: turtle._Screen):
