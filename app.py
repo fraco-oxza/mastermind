@@ -428,7 +428,7 @@ def trim(s: str) -> str:
 def ask_game_mode() -> bool:
     """
     function to ask the user if he wants to play with repeating colors or
-    without repeating colors. It will ask until it gets a valid answer from the 
+    without repeating colors. It will ask until it gets a valid answer from the
     user.
     """
     print(
