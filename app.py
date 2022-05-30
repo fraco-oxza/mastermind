@@ -205,7 +205,7 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
     Function to count the number of colors that the user has hit, 
     giving priority to the colors that are in the correct position, 
     compared to the colors that are, but not in the correct position.
- 
+
     The first value returned from left to right, are the positional 
     hits, the second is the color hits
 
@@ -218,7 +218,7 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
 
     pos_hits = 0
 
-    # clean strings, without the positional hits, 
+    # clean strings, without the positional hits,
     # to be able to count the color hits.
     secret_key_no_pos_hits = ""
     user_key_no_pos_hits = ""
@@ -248,7 +248,7 @@ def init_screen() -> turtle._Screen:
     function to create the window where the game will be drawn. 
     The size of the window will depend on the number of maximum attempts 
     and the length of the key.
-    """ 
+    """
     screen = turtle.Screen()
 
     screen.setup(KEY_LENGTH * 50 + 220, 200 + MAX_ATTEMPTS * 60)
@@ -262,7 +262,7 @@ def draw_key(key: str, t: turtle.Turtle):
     """ 
     Function to draw the combination of circles that are indicated in the 
     key string, respecting the indicated colors.
-    """ 
+    """
     i = 0
     while i < len(key):
         hex_color = get_hex_color(key[i])
@@ -283,13 +283,13 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     rectangle to add contrast.
     """
 
-    # Write the text 
+    # Write the text
     initial_x, initial_y = t.position()
     t.up()
     t.goto(initial_x - 10, initial_y + 10)
     t.color("#f0f0f0")
     t.write("Combinación Correcta: ")
-    
+
     # Draw the rectangle
     t.goto(initial_x, initial_y)
     t.right(180)
@@ -322,7 +322,7 @@ def draw_hits(position: int, color: int, t: turtle.Turtle):
     n gray circles indicating n positional hits, and then 
     draw m cream circles to indicate m color hits.
     """
-    # Positional Hits 
+    # Positional Hits
     i = 0
     while i < position:
         t.color("#928374")
@@ -368,7 +368,7 @@ def contain_only_allow_colors(key: str) -> bool:
                 is_on_colors = True
             j += 1
         if not is_on_colors:
-            # Immediately when a color is not this returns False 
+            # Immediately when a color is not this returns False
             return False
         i += 1
     return True
@@ -445,7 +445,7 @@ def print_colors():
     """ 
     Function that prints a list of the colors contained in the constant COLORS. 
     In addition to giving a brief explanation of how to enter the key. 
-    """ 
+    """
     print("Lista de colores: ")
     i = 0
     colors = get_all_colors()
@@ -463,7 +463,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     responsibilities is to generate a key for each game, acquire user data, 
     calculate where to draw each thing, keep a count of points, print the 
     statistics and check if the user wants to continue playing.
-    """ 
+    """
     # TODO: Print the instructions
 
     games = 0
@@ -540,7 +540,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 def main():
     """ 
     Main function, from here the functions are called to start the game.
-    """ 
+    """
     print_colors()
     screen = init_screen()
     turtle_instance = turtle.Turtle()
