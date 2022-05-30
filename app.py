@@ -475,8 +475,6 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
     calculate where to draw each thing, keep a count of points, print the
     statistics and check if the user wants to continue playing.
     """
-    # TODO: Print the instructions
-
     games = 0
     points = 0
     tries = 0
