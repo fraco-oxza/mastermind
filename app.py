@@ -1,7 +1,7 @@
 # Python Version 3.10.9
 # [GCC 11.2.0] on linux
 #
-# Copyright (c) 2022 Francisco Carvajal Ossa 
+# Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
 # Version: 1.0
@@ -324,7 +324,8 @@ def get_user_key() -> str:
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != KEY_LENGTH:
-            print("ERROR: La cadena DEBE tener " + str(KEY_LENGTH) + " colores")
+            print("ERROR: La cadena DEBE tener " +
+                  str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -397,7 +398,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         while not win:
             t.up()
             t.goto(init_x, y)
-            
+
             tries += 1
 
             user_key = get_user_key()
@@ -410,13 +411,15 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                 win = True
                 draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
                 t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
-                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha perdido esta ronda")
             else:
                 score /= 2
 
@@ -437,7 +440,8 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         Cantidad de Colores:        {}
 
 ===================================================="""
-    print(end_text.format(math.floor(points), games,round(tries/games), KEY_LENGTH, len(get_all_colors())))
+    print(end_text.format(math.floor(points), games, round(
+        tries/games), KEY_LENGTH, len(get_all_colors())))
 
 
 def main():
