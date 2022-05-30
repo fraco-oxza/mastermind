@@ -459,10 +459,10 @@ def print_colors():
 def print_rules():
     """Function to print the rules of the game."""
     print(
-        """ 
+        """
     <======================>
              Reglas
-    
+
     Intentos maximos:     {}
     Largo de Combinacion: {}
     """.format(MAX_ATTEMPTS, KEY_LENGTH))
