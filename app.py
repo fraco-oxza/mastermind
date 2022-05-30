@@ -4,7 +4,7 @@
 # Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.0.1
+# Version: 1.0.2
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -447,11 +447,9 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                     Juego Terminado
                     ---------------
 
-        Puntos:                     {}
-
-        Partidas jugadas:           {} 
-        Promedio de intentos:       {}
-        
+        Puntos:                     {}\n
+        Partidas jugadas:           {}
+        Promedio de intentos:       {}\n
         Largo de clave:             {}
         Cantidad de Colores:        {}
 
