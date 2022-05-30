@@ -201,16 +201,16 @@ def count_color_hits(secret_key: str, user_key: str) -> int:
 
 
 def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
-    """ 
-    Function to count the number of colors that the user has hit, 
-    giving priority to the colors that are in the correct position, 
+    """
+    Function to count the number of colors that the user has hit,
+    giving priority to the colors that are in the correct position,
     compared to the colors that are, but not in the correct position.
 
-    The first value returned from left to right, are the positional 
+    The first value returned from left to right, are the positional
     hits, the second is the color hits
 
     pos_hits, col_hits = count_hits("nar", "ran")
-    # pos_hits: 1 
+    # pos_hits: 1
     # col_hits: 2
     """
     if secret_key == user_key:
@@ -236,6 +236,7 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
 
     return pos_hits, col_hits
 
+
 # =============================================================================
 # =                                                                           =
 # =                     Section: Graphics of game                             =
@@ -244,9 +245,9 @@ def count_hits(secret_key: str, user_key: str) -> Tuple[int, int]:
 
 
 def init_screen() -> turtle._Screen:
-    """ 
-    function to create the window where the game will be drawn. 
-    The size of the window will depend on the number of maximum attempts 
+    """
+    function to create the window where the game will be drawn.
+    The size of the window will depend on the number of maximum attempts
     and the length of the key.
     """
     screen = turtle.Screen()
@@ -259,8 +260,8 @@ def init_screen() -> turtle._Screen:
 
 
 def draw_key(key: str, t: turtle.Turtle):
-    """ 
-    Function to draw the combination of circles that are indicated in the 
+    """
+    Function to draw the combination of circles that are indicated in the
     key string, respecting the indicated colors.
     """
     i = 0
@@ -278,8 +279,8 @@ def draw_key(key: str, t: turtle.Turtle):
 
 def draw_secret_key(secret_key: str, t: turtle.Turtle):
     """
-    Function used to print the secret key, indicating to the 
-    user what it was and highlighting it by enclosing it in a 
+    Function used to print the secret key, indicating to the
+    user what it was and highlighting it by enclosing it in a
     rectangle to add contrast.
     """
     # Write the text
@@ -316,9 +317,9 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
 
 def draw_hits(position: int, color: int, t: turtle.Turtle):
     """
-    Function to indicate to the user through the screen 
-    how many hits his combination has. It will first draw 
-    n gray circles indicating n positional hits, and then 
+    Function to indicate to the user through the screen
+    how many hits his combination has. It will first draw
+    n gray circles indicating n positional hits, and then
     draw m cream circles to indicate m color hits.
     """
     # Positional Hits
@@ -351,9 +352,10 @@ def draw_hits(position: int, color: int, t: turtle.Turtle):
 # =                                                                           =
 # =============================================================================
 
+
 def contain_only_allow_colors(key: str) -> bool:
     """
-    function to check that all the characters of the string key 
+    function to check that all the characters of the string key
     are valid as Color Code in the constant COLORS
     """
     # Get all colors in the COLORS const
@@ -374,11 +376,11 @@ def contain_only_allow_colors(key: str) -> bool:
 
 
 def get_user_key() -> str:
-    """ 
-    Function to ask the user for his key prediction. Check that the 
-    key entered is valid, if it is not, it will continue asking until the 
+    """
+    Function to ask the user for his key prediction. Check that the
+    key entered is valid, if it is not, it will continue asking until the
     user enters a valid key. In addition, the user can enter the question symbol
-    for a small guide and the list of colors. 
+    for a small guide and the list of colors.
     """
     is_valid_key = False
     user_key = ""
@@ -392,8 +394,7 @@ def get_user_key() -> str:
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != KEY_LENGTH:
-            print("ERROR: La cadena DEBE tener " +
-                  str(KEY_LENGTH) + " colores")
+            print("ERROR: La cadena DEBE tener " + str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -423,7 +424,7 @@ def trim(s: str) -> str:
 
 def user_wants_to_continue(msg: str) -> bool:
     """
-    Function to ask the user if he wants to continue playing. 
+    Function to ask the user if he wants to continue playing.
     It will prompt the user until they indicate a valid option.
     """
     has_answer = False
@@ -439,9 +440,9 @@ def user_wants_to_continue(msg: str) -> bool:
 
 
 def print_colors():
-    """ 
-    Function that prints a list of the colors contained in the constant COLORS. 
-    In addition to giving a brief explanation of how to enter the key. 
+    """
+    Function that prints a list of the colors contained in the constant COLORS.
+    In addition to giving a brief explanation of how to enter the key.
     """
     print("Lista de colores: ")
     i = 0
@@ -455,10 +456,10 @@ def print_colors():
 
 
 def game_loop(t: turtle.Turtle, screen: turtle._Screen):
-    """ 
+    """
     This function is responsible for executing the logic of the game. Among his
-    responsibilities is to generate a key for each game, acquire user data, 
-    calculate where to draw each thing, keep a count of points, print the 
+    responsibilities is to generate a key for each game, acquire user data,
+    calculate where to draw each thing, keep a count of points, print the
     statistics and check if the user wants to continue playing.
     """
     # TODO: Print the instructions
@@ -496,15 +497,13 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                 win = True
                 draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue(
-                    "Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
                 t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
-                user_want_to_exit = not user_wants_to_continue(
-                    "Ha perdido esta ronda")
+                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
             else:
                 score /= 2
 
@@ -535,7 +534,7 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
 
 
 def main():
-    """ 
+    """
     Main function, from here the functions are called to start the game.
     """
     print_colors()
