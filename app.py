@@ -340,7 +340,8 @@ def get_user_key() -> str:
         elif raw_user_key == "":
             print("ERROR: Ingrese una cadena")
         elif len(raw_user_key) != KEY_LENGTH:
-            print("ERROR: La cadena DEBE tener " + str(KEY_LENGTH) + " colores")
+            print("ERROR: La cadena DEBE tener " +
+                  str(KEY_LENGTH) + " colores")
         elif not contain_only_allow_colors(raw_user_key):
             print("ERROR: Debe ingresar la letra de un color valido")
         else:
@@ -426,13 +427,15 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
                 win = True
                 draw_secret_key(secret_key, t)
                 points += score
-                user_want_to_exit = not user_wants_to_continue("Ha ganado esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha ganado esta ronda")
             elif attemp >= MAX_ATTEMPTS:
                 t.up()
                 t.goto(init_x, y - 50)
                 win = True
                 draw_secret_key(secret_key, t)
-                user_want_to_exit = not user_wants_to_continue("Ha perdido esta ronda")
+                user_want_to_exit = not user_wants_to_continue(
+                    "Ha perdido esta ronda")
             else:
                 score /= 2
 
