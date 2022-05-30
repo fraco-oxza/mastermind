@@ -282,7 +282,6 @@ def draw_secret_key(secret_key: str, t: turtle.Turtle):
     user what it was and highlighting it by enclosing it in a 
     rectangle to add contrast.
     """
-
     # Write the text
     initial_x, initial_y = t.position()
     t.up()
@@ -406,7 +405,6 @@ def get_user_key() -> str:
 
 def trim(s: str) -> str:
     """Function to remove all spaces at the beginning and end of a string"""
-
     result = ""
 
     start = 0
@@ -428,7 +426,6 @@ def user_wants_to_continue(msg: str) -> bool:
     Function to ask the user if he wants to continue playing. 
     It will prompt the user until they indicate a valid option.
     """
-
     has_answer = False
     while not has_answer:
         raw_answer = input(msg + ", ¿Desea seguir jugando?(s/n): ")
