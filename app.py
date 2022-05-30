@@ -4,7 +4,7 @@
 # Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.0.4
+# Version: 1.1.0
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -154,7 +154,7 @@ def generate_random_color(possible_colors: str) -> str:
     return rand_color
 
 
-def create_secret_key(possible_colors: str, key_length: int) -> str:
+def create_secret_key(possible_colors: str, key_length: int, repeated_colors: bool) -> str:
     """
     Function to obtain a string of colors, based on a string of possible colors
     and a requested length. It should be noted that colors cannot be repeated,
@@ -165,8 +165,10 @@ def create_secret_key(possible_colors: str, key_length: int) -> str:
     i = 0
     while i < key_length:
         color = generate_random_color(possible_colors)
-        # Colors are eliminated as they have been used, to avoid repetition
-        possible_colors = clear_color(possible_colors, color)
+        if not repeated_colors:
+            # Colors are eliminated as they have been used, to avoid repetition
+            # if the user are player in non repetition mode
+            possible_colors = clear_color(possible_colors, color)
 
         secret_key += color
         i += 1
@@ -423,6 +425,31 @@ def trim(s: str) -> str:
     return result
 
 
+def ask_game_mode() -> bool:
+    """
+    function to ask the user if he wants to play with repeating colors or
+    without repeating colors. It will ask until it gets a valid answer from the 
+    user.
+    """
+    print(
+"""
+En este juego hay dos modalidades. En la primera, la combinación
+que elige el computador no tiene colores repetidos, lo que hace
+más fácil descubrir las posiciones de las fichas. Y en la segunda
+el computador si puede hacer una combinación con colores repetidos.
+""")
+    has_answer = False
+    while not has_answer:
+        raw_answer = input("¿Desea jugar con colores repetidos?(s/n): ")
+        raw_answer = trim(raw_answer)
+        if raw_answer == "s":
+            return True
+        if raw_answer == "n":
+            return False
+        print("ERROR: Ingrese una opción, s ó n")
+    return False
+
+
 def user_wants_to_continue(msg: str) -> bool:
     """
     Function to ask the user if he wants to continue playing.
@@ -456,8 +483,9 @@ def print_colors():
     print("    La cadena a introducir seria: ran")
 
 
-def print_rules():
+def print_rules(repeated_colors):
     """Function to print the rules of the game."""
+    mode = "Con colores repetidos" if repeated_colors else "Sin colores repetidos"
     print(
         """
     <======================>
@@ -465,10 +493,11 @@ def print_rules():
 
     Intentos maximos:     {}
     Largo de Combinacion: {}
-    """.format(MAX_ATTEMPTS, KEY_LENGTH))
+    Modalidad:            {}
+    """.format(MAX_ATTEMPTS, KEY_LENGTH,mode))
 
 
-def game_loop(t: turtle.Turtle, screen: turtle._Screen):
+def game_loop(repeated_colors: bool, t: turtle.Turtle, screen: turtle._Screen):
     """
     This function is responsible for executing the logic of the game. Among his
     responsibilities is to generate a key for each game, acquire user data,
@@ -488,7 +517,8 @@ def game_loop(t: turtle.Turtle, screen: turtle._Screen):
         init_x = (width - KEY_LENGTH * 50 + 30) / 2 - width / 2
         y = (200 + MAX_ATTEMPTS * 60) / 2 - 100
 
-        secret_key = create_secret_key(get_all_colors(), KEY_LENGTH)
+        secret_key = create_secret_key(
+            get_all_colors(), KEY_LENGTH, repeated_colors)
 
         win = False
         attemp = 1
@@ -551,7 +581,7 @@ def main():
     print(
         """
 --------------------------------------------
-      Bienvenido a MasterMind v1.0.4
+      Bienvenido a MasterMind v1.1.0
 --------------------------------------------
 En este juego deberás intentar adivinar una
 secuencia de colores que es elegida
@@ -566,15 +596,16 @@ color blanco cuando hayas indicado bien él
 color de una ficha, pero esta no este en la
 posición correcta.
 """)
-    input("Presione enter para continuar...")
-    print_rules()
+    repeated_colors = ask_game_mode()
+    print_rules(repeated_colors)
     input("Presione enter para continuar...")
     print_colors()
     input("Presione enter para continuar...")
     screen = init_screen()
     turtle_instance = turtle.Turtle()
     turtle_instance.speed(0)
-    game_loop(turtle_instance, screen)
+
+    game_loop(repeated_colors, turtle_instance, screen)
 
 
 if __name__ == "__main__":
