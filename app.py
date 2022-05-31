@@ -4,7 +4,7 @@
 # Copyright (c) 2022 Francisco Carvajal Ossa
 #
 # Name: MasterMind
-# Version: 1.1.0
+# Version: 1.1.2
 # Author: Francisco Carvajal Ossa <fcarvajal22@alumnos.utalca.cl>
 # License: All Rights Reserved
 from typing import Tuple
@@ -14,7 +14,7 @@ import random
 import math
 
 KEY_LENGTH = 5  # The length for the user and secret key
-MAX_ATTEMPTS = 10  # Maximum attempts to discover the secret key
+MAX_ATTEMPTS = 12  # Maximum attempts to discover the secret key
 
 
 # =============================================================================
@@ -338,7 +338,7 @@ def draw_hits(position: int, color: int, t: turtle.Turtle):
     # Color Hits
     i = 0
     while i < color:
-        t.color("#fbf1c7")
+        t.color("#ffffff")
         t.pendown()
         t.begin_fill()
         t.circle(5)
@@ -433,10 +433,13 @@ def ask_game_mode() -> bool:
     """
     print(
         """
-En este juego hay dos modalidades. En la primera, la combinación
-que elige el computador no tiene colores repetidos, lo que hace
-más fácil descubrir las posiciones de las fichas. Y en la segunda
-el computador si puede hacer una combinación con colores repetidos.
+En este juego hay dos modalidades. En la
+primera, la combinación que elige el
+computador no tiene colores repetidos, lo
+que hace más fácil descubrir las posiciones
+de las fichas. Y en la segunda el computador
+si puede hacer una combinación con colores
+repetidos.
 """)
     has_answer = False
     while not has_answer:
@@ -581,7 +584,7 @@ def main():
     print(
         """
 --------------------------------------------
-      Bienvenido a MasterMind v1.1.0
+       Bienvenido a MasterMind v1.1
 --------------------------------------------
 En este juego deberás intentar adivinar una
 secuencia de colores que es elegida
@@ -595,12 +598,13 @@ te dirá cuál es) y te mostrará un círculo de
 color blanco cuando hayas indicado bien él
 color de una ficha, pero esta no este en la
 posición correcta.
-""")
+""") 
+    input("Presione enter para continuar...")
     repeated_colors = ask_game_mode()
     print_rules(repeated_colors)
     input("Presione enter para continuar...")
     print_colors()
-    input("Presione enter para continuar...")
+
     screen = init_screen()
     turtle_instance = turtle.Turtle()
     turtle_instance.speed(0)

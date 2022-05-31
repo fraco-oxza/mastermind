@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module app</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>app</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/fraco/Workdir/utalca/mastermind/app.py">/home/fraco/Workdir/utalca/mastermind/app.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Python&nbsp;Version&nbsp;3.10.9<br>
+#&nbsp;[GCC&nbsp;11.2.0]&nbsp;on&nbsp;linux<br>
+#<br>
+#&nbsp;Copyright&nbsp;(c)&nbsp;2022&nbsp;Francisco&nbsp;Carvajal&nbsp;Ossa<br>
+#<br>
+#&nbsp;Name:&nbsp;MasterMind<br>
+#&nbsp;Version:&nbsp;1.1.2<br>
+#&nbsp;Author:&nbsp;Francisco&nbsp;Carvajal&nbsp;Ossa&nbsp;&lt;fcarvajal22@alumnos.utalca.cl&gt;<br>
+#&nbsp;License:&nbsp;All&nbsp;Rights&nbsp;Reserved</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="turtle.html">turtle</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-ask_game_mode"><strong>ask_game_mode</strong></a>() -&gt; bool</dt><dd><tt>function&nbsp;to&nbsp;ask&nbsp;the&nbsp;user&nbsp;if&nbsp;he&nbsp;wants&nbsp;to&nbsp;play&nbsp;with&nbsp;repeating&nbsp;colors&nbsp;or<br>
+without&nbsp;repeating&nbsp;colors.&nbsp;It&nbsp;will&nbsp;ask&nbsp;until&nbsp;it&nbsp;gets&nbsp;a&nbsp;valid&nbsp;answer&nbsp;from&nbsp;the<br>
+user.</tt></dd></dl>
+ <dl><dt><a name="-clear_color"><strong>clear_color</strong></a>(possible_colors: str, color_to_remove: str) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;remove&nbsp;from&nbsp;"possible_colors&nbsp;all&nbsp;chars&nbsp;that&nbsp;be&nbsp;equal&nbsp;to&nbsp;the<br>
+string&nbsp;"color_to_remove"</tt></dd></dl>
+ <dl><dt><a name="-contain_only_allow_colors"><strong>contain_only_allow_colors</strong></a>(key: str) -&gt; bool</dt><dd><tt>function&nbsp;to&nbsp;check&nbsp;that&nbsp;all&nbsp;the&nbsp;characters&nbsp;of&nbsp;the&nbsp;string&nbsp;key<br>
+are&nbsp;valid&nbsp;as&nbsp;Color&nbsp;Code&nbsp;in&nbsp;the&nbsp;constant&nbsp;COLORS</tt></dd></dl>
+ <dl><dt><a name="-count_color_hits"><strong>count_color_hits</strong></a>(secret_key: str, user_key: str) -&gt; int</dt><dd><tt>Function&nbsp;to&nbsp;compare&nbsp;the&nbsp;user&nbsp;key&nbsp;with&nbsp;the&nbsp;secret&nbsp;key.<br>
+It&nbsp;will&nbsp;return&nbsp;how&nbsp;many&nbsp;colors&nbsp;the&nbsp;user&nbsp;has&nbsp;matched&nbsp;regardless<br>
+of&nbsp;whether&nbsp;they&nbsp;are&nbsp;in&nbsp;the&nbsp;correct&nbsp;position&nbsp;or&nbsp;not.</tt></dd></dl>
+ <dl><dt><a name="-count_hits"><strong>count_hits</strong></a>(secret_key: str, user_key: str) -&gt; Tuple[int, int]</dt><dd><tt>Function&nbsp;to&nbsp;count&nbsp;the&nbsp;number&nbsp;of&nbsp;colors&nbsp;that&nbsp;the&nbsp;user&nbsp;has&nbsp;hit,<br>
+giving&nbsp;priority&nbsp;to&nbsp;the&nbsp;colors&nbsp;that&nbsp;are&nbsp;in&nbsp;the&nbsp;correct&nbsp;position,<br>
+compared&nbsp;to&nbsp;the&nbsp;colors&nbsp;that&nbsp;are,&nbsp;but&nbsp;not&nbsp;in&nbsp;the&nbsp;correct&nbsp;position.<br>
+&nbsp;<br>
+The&nbsp;first&nbsp;value&nbsp;returned&nbsp;from&nbsp;left&nbsp;to&nbsp;right,&nbsp;are&nbsp;the&nbsp;positional<br>
+hits,&nbsp;the&nbsp;second&nbsp;is&nbsp;the&nbsp;color&nbsp;hits<br>
+&nbsp;<br>
+pos_hits,&nbsp;col_hits&nbsp;=&nbsp;<a href="#-count_hits">count_hits</a>("nar",&nbsp;"ran")<br>
+#&nbsp;pos_hits:&nbsp;1<br>
+#&nbsp;col_hits:&nbsp;2</tt></dd></dl>
+ <dl><dt><a name="-create_secret_key"><strong>create_secret_key</strong></a>(pos_col: str, key_len: int, repeated_colors: bool) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;obtain&nbsp;a&nbsp;string&nbsp;of&nbsp;colors,&nbsp;based&nbsp;on&nbsp;a&nbsp;string&nbsp;of&nbsp;possible&nbsp;colors<br>
+and&nbsp;a&nbsp;requested&nbsp;length.&nbsp;It&nbsp;should&nbsp;be&nbsp;noted&nbsp;that&nbsp;colors&nbsp;cannot&nbsp;be&nbsp;repeated,<br>
+therefore,&nbsp;the&nbsp;key_len&nbsp;parameter&nbsp;must&nbsp;not&nbsp;be&nbsp;greater&nbsp;than&nbsp;the&nbsp;length&nbsp;of<br>
+the&nbsp;pos_col&nbsp;parameter.</tt></dd></dl>
+ <dl><dt><a name="-draw_hits"><strong>draw_hits</strong></a>(position: int, color: int, t: turtle.Turtle)</dt><dd><tt>Function&nbsp;to&nbsp;indicate&nbsp;to&nbsp;the&nbsp;user&nbsp;through&nbsp;the&nbsp;screen<br>
+how&nbsp;many&nbsp;hits&nbsp;his&nbsp;combination&nbsp;has.&nbsp;It&nbsp;will&nbsp;first&nbsp;draw<br>
+n&nbsp;gray&nbsp;circles&nbsp;indicating&nbsp;n&nbsp;positional&nbsp;hits,&nbsp;and&nbsp;then<br>
+draw&nbsp;m&nbsp;cream&nbsp;circles&nbsp;to&nbsp;indicate&nbsp;m&nbsp;color&nbsp;hits.</tt></dd></dl>
+ <dl><dt><a name="-draw_key"><strong>draw_key</strong></a>(key: str, t: turtle.Turtle)</dt><dd><tt>Function&nbsp;to&nbsp;draw&nbsp;the&nbsp;combination&nbsp;of&nbsp;circles&nbsp;that&nbsp;are&nbsp;indicated&nbsp;in&nbsp;the<br>
+key&nbsp;string,&nbsp;respecting&nbsp;the&nbsp;indicated&nbsp;colors.</tt></dd></dl>
+ <dl><dt><a name="-draw_secret_key"><strong>draw_secret_key</strong></a>(secret_key: str, t: turtle.Turtle)</dt><dd><tt>Function&nbsp;used&nbsp;to&nbsp;print&nbsp;the&nbsp;secret&nbsp;key,&nbsp;indicating&nbsp;to&nbsp;the<br>
+user&nbsp;what&nbsp;it&nbsp;was&nbsp;and&nbsp;highlighting&nbsp;it&nbsp;by&nbsp;enclosing&nbsp;it&nbsp;in&nbsp;a<br>
+rectangle&nbsp;to&nbsp;add&nbsp;contrast.</tt></dd></dl>
+ <dl><dt><a name="-game_loop"><strong>game_loop</strong></a>(repeated_colors: bool, t: turtle.Turtle, screen: turtle._Screen)</dt><dd><tt>This&nbsp;function&nbsp;is&nbsp;responsible&nbsp;for&nbsp;executing&nbsp;the&nbsp;logic&nbsp;of&nbsp;the&nbsp;game.&nbsp;Among&nbsp;his<br>
+responsibilities&nbsp;is&nbsp;to&nbsp;generate&nbsp;a&nbsp;key&nbsp;for&nbsp;each&nbsp;game,&nbsp;acquire&nbsp;user&nbsp;data,<br>
+calculate&nbsp;where&nbsp;to&nbsp;draw&nbsp;each&nbsp;thing,&nbsp;keep&nbsp;a&nbsp;count&nbsp;of&nbsp;points,&nbsp;print&nbsp;the<br>
+statistics&nbsp;and&nbsp;check&nbsp;if&nbsp;the&nbsp;user&nbsp;wants&nbsp;to&nbsp;continue&nbsp;playing.</tt></dd></dl>
+ <dl><dt><a name="-generate_random_color"><strong>generate_random_color</strong></a>(possible_colors: str) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;get&nbsp;a&nbsp;random&nbsp;color&nbsp;from&nbsp;possible_colors</tt></dd></dl>
+ <dl><dt><a name="-get_all_colors"><strong>get_all_colors</strong></a>() -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;get&nbsp;all&nbsp;colors&nbsp;keys&nbsp;from&nbsp;the&nbsp;COLORS&nbsp;const<br>
+in&nbsp;one&nbsp;str</tt></dd></dl>
+ <dl><dt><a name="-get_hex_color"><strong>get_hex_color</strong></a>(color_code: str) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;get&nbsp;a&nbsp;Color&nbsp;Code&nbsp;from&nbsp;the<br>
+COLORS&nbsp;const&nbsp;based&nbsp;on&nbsp;a&nbsp;Color&nbsp;Key.<br>
+If&nbsp;not&nbsp;exists,&nbsp;return&nbsp;a&nbsp;empty&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-get_name_color"><strong>get_name_color</strong></a>(color_code: str) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;get&nbsp;a&nbsp;Name&nbsp;Color&nbsp;from&nbsp;the<br>
+COLORS&nbsp;const&nbsp;based&nbsp;on&nbsp;a&nbsp;Color&nbsp;Key.<br>
+If&nbsp;not&nbsp;exists,&nbsp;return&nbsp;a&nbsp;empty&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-get_user_key"><strong>get_user_key</strong></a>() -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;ask&nbsp;the&nbsp;user&nbsp;for&nbsp;his&nbsp;key&nbsp;prediction.&nbsp;Check&nbsp;that&nbsp;the<br>
+key&nbsp;entered&nbsp;is&nbsp;valid,&nbsp;if&nbsp;it&nbsp;is&nbsp;not,&nbsp;it&nbsp;will&nbsp;continue&nbsp;asking&nbsp;until&nbsp;the<br>
+user&nbsp;enters&nbsp;a&nbsp;valid&nbsp;key.&nbsp;In&nbsp;addition,&nbsp;the&nbsp;user&nbsp;can&nbsp;enter&nbsp;the&nbsp;question&nbsp;symbol<br>
+for&nbsp;a&nbsp;small&nbsp;guide&nbsp;and&nbsp;the&nbsp;list&nbsp;of&nbsp;colors.</tt></dd></dl>
+ <dl><dt><a name="-init_screen"><strong>init_screen</strong></a>() -&gt; turtle._Screen</dt><dd><tt>function&nbsp;to&nbsp;create&nbsp;the&nbsp;window&nbsp;where&nbsp;the&nbsp;game&nbsp;will&nbsp;be&nbsp;drawn.<br>
+The&nbsp;size&nbsp;of&nbsp;the&nbsp;window&nbsp;will&nbsp;depend&nbsp;on&nbsp;the&nbsp;number&nbsp;of&nbsp;maximum&nbsp;attempts<br>
+and&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;key.</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Main&nbsp;function,&nbsp;from&nbsp;here&nbsp;the&nbsp;functions&nbsp;are&nbsp;called&nbsp;to&nbsp;start&nbsp;the&nbsp;game.</tt></dd></dl>
+ <dl><dt><a name="-print_colors"><strong>print_colors</strong></a>()</dt><dd><tt>Function&nbsp;that&nbsp;prints&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;colors&nbsp;contained&nbsp;in&nbsp;the&nbsp;constant&nbsp;COLORS.<br>
+In&nbsp;addition&nbsp;to&nbsp;giving&nbsp;a&nbsp;brief&nbsp;explanation&nbsp;of&nbsp;how&nbsp;to&nbsp;enter&nbsp;the&nbsp;key.</tt></dd></dl>
+ <dl><dt><a name="-print_rules"><strong>print_rules</strong></a>(repeated_colors)</dt><dd><tt>Function&nbsp;to&nbsp;print&nbsp;the&nbsp;rules&nbsp;of&nbsp;the&nbsp;game.</tt></dd></dl>
+ <dl><dt><a name="-remove_color_index"><strong>remove_color_index</strong></a>(colors: str, index: int) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;remove&nbsp;from&nbsp;colors&nbsp;one&nbsp;letter&nbsp;specified&nbsp;by&nbsp;the&nbsp;index,<br>
+this&nbsp;function&nbsp;will&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;string&nbsp;without&nbsp;of&nbsp;the&nbsp;letter&nbsp;in<br>
+index&nbsp;position</tt></dd></dl>
+ <dl><dt><a name="-trim"><strong>trim</strong></a>(s: str) -&gt; str</dt><dd><tt>Function&nbsp;to&nbsp;remove&nbsp;all&nbsp;spaces&nbsp;at&nbsp;the&nbsp;beginning&nbsp;and&nbsp;end&nbsp;of&nbsp;a&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-user_wants_to_continue"><strong>user_wants_to_continue</strong></a>(msg: str) -&gt; bool</dt><dd><tt>Function&nbsp;to&nbsp;ask&nbsp;the&nbsp;user&nbsp;if&nbsp;he&nbsp;wants&nbsp;to&nbsp;continue&nbsp;playing.<br>
+It&nbsp;will&nbsp;prompt&nbsp;the&nbsp;user&nbsp;until&nbsp;they&nbsp;indicate&nbsp;a&nbsp;valid&nbsp;option.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>COLORS</strong> = '<font color="#c040c0">\n</font>-n|naranjo:#F6421B;<font color="#c040c0">\n</font>-c|celeste:#26B2EB;<font color="#c040c0">\n</font>-v|verd...a:#8217D4;<font color="#c040c0">\n</font>-b|blanco:#FEFDFA;<font color="#c040c0">\n</font>-r|rosado:#FF21D1;<font color="#c040c0">\n</font>'<br>
+<strong>KEY_LENGTH</strong> = 5<br>
+<strong>MAX_ATTEMPTS</strong> = 12<br>
+<strong>Tuple</strong> = typing.Tuple</td></tr></table>
+</body></html>
