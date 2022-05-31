@@ -598,7 +598,7 @@ te dirá cuál es) y te mostrará un círculo de
 color blanco cuando hayas indicado bien él
 color de una ficha, pero esta no este en la
 posición correcta.
-""") 
+""")
     input("Presione enter para continuar...")
     repeated_colors = ask_game_mode()
     print_rules(repeated_colors)
